@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>jQuery Circle Menu</title>
+  <link type="text/css" href="css/jquery.circlemenu.css" rel="stylesheet" media="screen" />
+  <link type="text/css" href="css/custom.css" rel="stylesheet" media="screen" />
+
+</head>
+
+<body>
+  <h1 class="page-title">Demo</h1>
+
+  <div class="wheel">
+    <div class="wheel__list">
+      <div class="wheel__list__item">
+        <span>A</span></div>
+      <div class="wheel__list__item">
+        <span>B</span></div>
+      <div class="wheel__list__item">
+        <span>C</span></div>
+      <div class="wheel__list__item">
+        <span>D</span></div>
+      <div class="wheel__list__item">
+        <span>E</span></div>
+      <div class="wheel__list__item">
+        <span>F</span></div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery.circlemenu.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('.wheel').circleMenu({
+        lockDirection: true,
+        dragMouse: true,
+        dragTouch: true
+      });
+    });
+  </script>
+</body>
+
+</html>
