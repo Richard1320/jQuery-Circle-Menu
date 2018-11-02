@@ -1,0 +1,32 @@
+{
+  "name": "jquery-circle-menu",
+  "description": "jQuery Circle Menu is a plugin to create radial menus on your website",
+  "main": [
+    "js/jquery.circlemenu.js",
+    "css/jquery.circlemenu.css"
+  ],
+  "keywords": [
+    "navigation",
+    "navbar",
+    "nav",
+    "animation",
+    "hover",
+    "circle",
+    "wheel",
+    "radial",
+    "menu"
+  ],
+  "authors": [
+    "Richard Hung <richardhung111@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "js/jquery-3.3.1.min.js",
+    "js/jquery.circlemenu.min.js",
+    "demo.html",
+    "bower.json",
+    "package.json",
+    "README.md"
+  ],
+  "private": false
+}
