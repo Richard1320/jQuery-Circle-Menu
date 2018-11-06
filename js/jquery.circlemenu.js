@@ -34,7 +34,7 @@
         defaultRotation: 0, // Angle to start rotation, and angle for focus rotate
         drawLine: false, // Animate line from 0 to focused child element
         dragMouse: false, // Click and drag to rotate the circle
-        dragTouch: false, // Click and drag to rotate the circle
+        dragTouch: false, // Touch and drag to rotate the circle
         dragDirection: 'horizontal', // Drag up and down or left and right
         lockDirection: false, // Invert the rotation of child items to ensure content is always facing up
         focusRotate: false, // Rotate to highlight currently focus item
