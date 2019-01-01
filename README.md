@@ -3,6 +3,7 @@
 jQuery Circle Menu is a plugin to create HTML elements anchored to a circle.
 
 ## Basic Usage
+
 1. Include `jQuery` and `jquery-circle-menu.js` in your document.
 
 ```html
@@ -10,10 +11,15 @@ jQuery Circle Menu is a plugin to create HTML elements anchored to a circle.
 <script src="./js/jquery-circle-menu.js"></script>
 ```
 
-2. Include  `jquery.circlemenu.css` in your head.
+2. Include `jquery.circlemenu.css` in your head.
 
 ```html
-<link href="./css/jquery.circlemenu.css" rel="stylesheet" type="text/css" media="screen" />
+<link
+  href="./css/jquery.circlemenu.css"
+  rel="stylesheet"
+  type="text/css"
+  media="screen"
+/>
 ```
 
 3. Create elements in your HTML. The structure requires all list items need to be inside two parent containers.
@@ -21,18 +27,12 @@ jQuery Circle Menu is a plugin to create HTML elements anchored to a circle.
 ```html
 <div class="wheel">
   <div class="wheel__list">
-    <div class="wheel__list__item">
-      <span>A</span></div>
-    <div class="wheel__list__item">
-      <span>B</span></div>
-    <div class="wheel__list__item">
-      <span>C</span></div>
-    <div class="wheel__list__item">
-      <span>D</span></div>
-    <div class="wheel__list__item">
-      <span>E</span></div>
-    <div class="wheel__list__item">
-      <span>F</span></div>
+    <div class="wheel__list__item"><span>A</span></div>
+    <div class="wheel__list__item"><span>B</span></div>
+    <div class="wheel__list__item"><span>C</span></div>
+    <div class="wheel__list__item"><span>D</span></div>
+    <div class="wheel__list__item"><span>E</span></div>
+    <div class="wheel__list__item"><span>F</span></div>
   </div>
 </div>
 ```
@@ -49,7 +49,7 @@ $('.wheel').circleMenu();
 
 Default value: `0`
 
-The `defaultRotation` property determines the initial position of the first list item. 
+The `defaultRotation` property determines the initial position of the first list item.
 
 ```javascript
 $('.wheel').circleMenu({
@@ -60,16 +60,21 @@ $('.wheel').circleMenu({
 ### Dragging
 
 Default `dragMouse` value: `false`
+
 Default `dragTouch` value: `false`
+
 Default `dragDirection` value: `horizontal`
 
-The `dragMouse` and `dragMouse` properties determine which event will rotate the menu. The `dragDirection` value can either be `horizontal` or `vertical`.
+Default `rotateDirection` value: `clockwise`
+
+The `dragMouse` and `dragMouse` properties determine which event will rotate the menu. The `dragDirection` value can either be `horizontal` or `vertical`. The `rotateDirection` value can either be `clockwise` or `counter-clockwise`.
 
 ```javascript
 $('.wheel').circleMenu({
   dragMouse: true,
-  dragTouch: true, 
+  dragTouch: true,
   dragDirection: 'vertical',
+  rotateDirection: 'counter-clockwise',
 });
 ```
 
@@ -119,7 +124,7 @@ $('.wheel').circleMenu({
 
 ### Focus
 
-You are required to manually call the focus method by passing the 0 index of the list item to be focused. If the `drawLine` option is on, it will draw a line from the first list item to the focused item. If the `focusRotate` option is on, it will rotate the entire menu to anchor the focused element. 
+You are required to manually call the focus method by passing the 0 index of the list item to be focused. If the `drawLine` option is on, it will draw a line from the first list item to the focused item. If the `focusRotate` option is on, it will rotate the entire menu to anchor the focused element.
 
 ```javascript
 var index = 2;
@@ -127,4 +132,5 @@ $('.wheel').circleMenu('focus', index);
 ```
 
 ## License
+
 jQuery Circle Menu is licensed under the MIT license. (http://opensource.org/licenses/MIT)
