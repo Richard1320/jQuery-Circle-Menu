@@ -7,7 +7,7 @@
  * http://www.magicmediamuse.com/
  *
  * Version
- * 1.0.0
+ * 1.0.1
  *
  * Copyright (c) 2018 Richard Hung.
  *
@@ -16,19 +16,18 @@
  * http://opensource.org/licenses/MIT
  */
 
-(function ($) {
+(function($) {
   'use strict';
 
   // Create the plugin name and defaults once
   var pluginName = 'circleMenu';
   var mouse = {
     x: 0,
-    y: 0
+    y: 0,
   };
 
   var methods = {
-    init: function (overrides) {
-
+    init: function(overrides) {
       // Set default parameters
       var defaultSettings = {
         defaultRotation: 0, // Angle to start rotation, and angle for focus rotate
@@ -38,18 +37,26 @@
         dragDirection: 'horizontal', // Drag up and down or left and right
         lockDirection: false, // Invert the rotation of child items to ensure content is always facing up
         focusRotate: false, // Rotate to highlight currently focus item
+        rotateDirection: 'clockwise', // Rotate clockwise or couter-clockwise when dragging down or right
       }; // End options
 
       // Override default options
       var settings = $.extend({}, defaultSettings, overrides);
 
-      return this.each(function () {
+      return this.each(function() {
         var $this = $(this);
         var wrapper = $this.children();
         var children = wrapper.children();
-        $this.addClass('circle-menu').data('settings', settings).data('currentOffset', settings.defaultRotation);
-        wrapper.addClass('circle-menu__circle').css('transform', 'rotate(' + settings.defaultRotation + 'deg)');
-        children.addClass('circle-menu__circle__item').wrapInner('<div class="circle-menu__circle__item__inner"></div>');
+        $this
+          .addClass('circle-menu')
+          .data('settings', settings)
+          .data('currentOffset', settings.defaultRotation);
+        wrapper
+          .addClass('circle-menu__circle')
+          .css('transform', 'rotate(' + settings.defaultRotation + 'deg)');
+        children
+          .addClass('circle-menu__circle__item')
+          .wrapInner('<div class="circle-menu__circle__item__inner"></div>');
         $this[pluginName]('update');
 
         if (settings.dragMouse || settings.dragTouch) {
@@ -61,46 +68,57 @@
           $this[pluginName]('bindDrag');
         }
 
-        wrapper.append('<svg class="circle-menu__circle__svg" viewbox="0 0 100 100"><circle class="circle-menu__circle__svg__circle" cx="50" cy="50" r="50" transform="rotate(-90 50 50)" /><circle class="circle-menu__circle__svg__line" cx="50" cy="50" r="50" transform="rotate(-90 50 50)" /></svg>');
+        wrapper.append(
+          '<svg class="circle-menu__circle__svg" viewbox="0 0 100 100"><circle class="circle-menu__circle__svg__circle" cx="50" cy="50" r="50" transform="rotate(-90 50 50)" /><circle class="circle-menu__circle__svg__line" cx="50" cy="50" r="50" transform="rotate(-90 50 50)" /></svg>'
+        );
       }); // End object loop
-
     }, // End init
-    update: function () { // Reposition all child elements
-      return this.each(function () {
+    update: function() {
+      // Reposition all child elements
+      return this.each(function() {
         var $this = $(this);
         var children = $this.find('.circle-menu__circle__item');
         var settings = $this.data('settings');
         var count = children.length;
         var increment = 360 / count;
 
-        children.each(function () {
+        children.each(function() {
           var $child = $(this);
           var index = $child.index();
           var rotate = index * increment;
-          $child.css('transform', 'rotate(' + rotate + 'deg)').data('offsetRotate', rotate);
+          $child
+            .css('transform', 'rotate(' + rotate + 'deg)')
+            .data('offsetRotate', rotate);
         });
 
         if (settings.lockDirection) $this[pluginName]('reLockChildren');
 
         $this[pluginName]('directionClasses');
-
       });
     }, // End update
-    reLockChildren: function () { // Invert the rotation of child items to ensure they always face up
+    reLockChildren: function() {
+      // Invert the rotation of child items to ensure they always face up
       var currentOffset = this.data('currentOffset');
-      return this.find('.circle-menu__circle__item').each(function () {
+      return this.find('.circle-menu__circle__item').each(function() {
         var offsetRotate = $(this).data('offsetRotate');
-        $(this).children('.circle-menu__circle__item__inner').css('transform', 'rotate(' + (offsetRotate + currentOffset) * -1 + 'deg)');
+        $(this)
+          .children('.circle-menu__circle__item__inner')
+          .css(
+            'transform',
+            'rotate(' + (offsetRotate + currentOffset) * -1 + 'deg)'
+          );
       });
     },
-    directionClasses: function () {
+    directionClasses: function() {
       var $this = this;
       var children = $this.find('.circle-menu__circle__item');
       var rotate = $this.data('currentOffset');
 
-      children.removeClass('position--top position--left position--right position--bottom position--bottom-right position--top-left position--top-left position--top-right position--bottom-left position--bottom-right');
+      children.removeClass(
+        'position--top position--left position--right position--bottom position--bottom-right position--top-left position--top-left position--top-right position--bottom-left position--bottom-right'
+      );
 
-      children.each(function () {
+      children.each(function() {
         var $child = $(this);
         var offset = $child.data('offsetRotate');
         var current = rotate + offset;
@@ -109,7 +127,10 @@
         if (current < 0) current = current + 360;
         if (current > 360) current = current - 360;
 
-        if ((current >= 337 && current <= 360) || (current >= 0 && current < 22)) {
+        if (
+          (current >= 337 && current <= 360) ||
+          (current >= 0 && current < 22)
+        ) {
           $child.addClass('position--top');
         } else if (current >= 22 && current < 67) {
           $child.addClass('position--top-right');
@@ -126,10 +147,9 @@
         } else if (current >= 292 && current < 337) {
           $child.addClass('position--top-left');
         }
-
       });
     },
-    bindDrag: function () {
+    bindDrag: function() {
       var settings = this.data('settings');
       var e_start = '';
       var e_move = '';
@@ -146,26 +166,34 @@
         e_stop = e_stop + 'touchend touchcancel ';
       }
 
-      this.on(e_start, function (e) {
+      this.on(e_start, function(e) {
         var $this = $(this);
         var settings = $this.data('settings');
 
         // Change event properties if touch or mouse
         var event = e;
-        if (e.type == 'touchstart') event = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        if (e.type == 'touchstart')
+          event =
+            e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 
         mouse.x = event.pageX - $this.offset().left;
         mouse.y = event.pageY - $this.offset().top;
 
-        $this.on(e_move, function (e) {
+        $this.on(e_move, function(e) {
           // Change event properties if touch or mouse
           var event = e;
-          if (e.type == 'touchmove') event = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+          if (e.type == 'touchmove')
+            event =
+              e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 
           var x = event.pageX - $this.offset().left;
           var y = event.pageY - $this.offset().top;
-          var move = ((settings.dragDirection == 'horizontal') ? x - mouse.x : y - mouse.y);
-          var currentOffset = $this.data('currentOffset') + move;
+          var move =
+            settings.dragDirection == 'horizontal' ? x - mouse.x : y - mouse.y;
+          var currentOffset =
+            settings.rotateDirection == 'clockwise'
+              ? $this.data('currentOffset') + move
+              : $this.data('currentOffset') - move;
           mouse.x = x;
           mouse.y = y;
 
@@ -173,20 +201,20 @@
 
           e.preventDefault();
         });
-        $(window).one(e_stop, function () {
+        $(window).one(e_stop, function() {
           $this.off(e_move);
         });
       });
 
       // Stop event bubbling from the drag
-      this.find('.circle-menu__circle__item').on(e_start, function (e) {
+      this.find('.circle-menu__circle__item').on(e_start, function(e) {
         e.stopPropagation();
       });
 
       return this;
     },
-    rotateTo: function (degrees) {
-      return this.each(function () {
+    rotateTo: function(degrees) {
+      return this.each(function() {
         var $this = $(this);
         var settings = $this.data('settings');
         var circle = $this.children('.circle-menu__circle');
@@ -206,8 +234,9 @@
         $this[pluginName]('directionClasses');
       });
     },
-    focus: function (index) { // Focus on a child element as being "active"
-      return this.each(function () {
+    focus: function(index) {
+      // Focus on a child element as being "active"
+      return this.each(function() {
         var $this = $(this);
         var circle = $this.children('.circle-menu__circle');
         var settings = $this.data('settings');
@@ -215,44 +244,53 @@
         var children = $this.find('.circle-menu__circle__item');
         var count = children.length;
         var increment = dashArray / count;
-        var dashOffset = dashArray - (increment * index);
-        var rotateTo = (360 / count * index * -1) + settings.defaultRotation;
+        var dashOffset = dashArray - increment * index;
+        var rotateTo = (360 / count) * index * -1 + settings.defaultRotation;
 
-        children.removeClass('is-active').eq(index).addClass('is-active');
+        children
+          .removeClass('is-active')
+          .eq(index)
+          .addClass('is-active');
 
-        if (settings.drawLine) $this.find('.circle-menu__circle__svg__line').css('stroke-dashoffset', dashOffset);
+        if (settings.drawLine)
+          $this
+            .find('.circle-menu__circle__svg__line')
+            .css('stroke-dashoffset', dashOffset);
 
         if (settings.focusRotate) {
           // Create custom animation tween
           circle.css('z-index', $this.data('currentOffset'));
-          circle.animate({
-            zIndex: rotateTo
-          }, {
-            step: function (now, fx) {
-              $this[pluginName]('rotateTo', now);
+          circle.animate(
+            {
+              zIndex: rotateTo,
             },
-            duration: 1000,
-          });
+            {
+              step: function(now, fx) {
+                $this[pluginName]('rotateTo', now);
+              },
+              duration: 1000,
+            }
+          );
         }
       });
     },
-    destroy: function () {
-      return this.each(function () {
+    destroy: function() {
+      return this.each(function() {
         alert('destroy');
       });
     }, // End destroy
   }; // End method
 
-  $.fn[pluginName] = function (method) {
-
+  $.fn[pluginName] = function(method) {
     if (methods[method]) {
-      return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+      return methods[method].apply(
+        this,
+        Array.prototype.slice.call(arguments, 1)
+      );
     } else if (typeof method === 'object' || !method) {
       return methods.init.apply(this, arguments);
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.' + pluginName);
     }
-
   }; // End plugin
-
 })(jQuery);
